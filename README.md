@@ -1,1 +1,5 @@
 # MIHU
+
+```
+python runme.py 
+```
