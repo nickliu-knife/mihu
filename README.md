@@ -1,5 +1,5 @@
-# MIHU
+## Math Test
 
 ```
-python runme.py 
+python math.py 
 ```
