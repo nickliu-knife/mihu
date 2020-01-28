@@ -1,5 +1,5 @@
 ## Math Test
 
 ```
-python math.py 
+python mathj.py 
 ```
