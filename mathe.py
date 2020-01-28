@@ -18,10 +18,10 @@ CGREY    = '\33[90m'
 ops = ['+', '-']
 
 print('')
-name = raw_input('Please input your name:')
+name = input('Please input your name:')
 number = ''
 while not number.isdigit():
-    number = raw_input('Please input the number of problems you want to play:')
+    number = input('Please input the number of problems you want to play:')
 
 print('')
 for  _ in range(int(number)):
@@ -41,10 +41,10 @@ for  _ in range(int(number)):
             
         exp = a - b
 
-    c = raw_input('%s %s %s = ' % (a, op, b))
+    c = input('%s %s %s = ' % (a, op, b))
     while not c.isdigit():                
         print('Please input a number')
-        c = raw_input('%s %s %s = ' % (a, op, b))
+        c = input('%s %s %s = ' % (a, op, b))
 
     if int(c) == exp:
         # print('You answer is ' +  CGREEN + 'correct' + CEND)
@@ -69,8 +69,8 @@ for r in record:
 
 print('--------------------------------------------')
 min, sec = divmod(duration, 60)
-print('You spent ' + CBLINK + CBOLD + CYELLOW + str(min) + CEND + ' minutes ' + CBLINK + CBOLD + CYELLOW + str(sec) + CEND + ' seconds')
-print('You have ' +  CBLINK + CBOLD + CYELLOW + str(correct) + CEND + ' and ' + CBLINK + CBOLD + CYELLOW + str(wrong) + CEND + ' answers')
+print('You spent ' + CBOLD + CYELLOW + str(min) + CEND + ' minutes ' +  CBOLD + CYELLOW + str(sec) + CEND + ' seconds completing %s problems' % str(len(record)))
+print('You have ' +  CBOLD + CYELLOW + str(correct) + CEND + ' correct and ' + CBOLD + CYELLOW + str(wrong) + CEND + ' wrong answers')
 score = int(correct*100/(correct+wrong))
 print('Your score is ' + CBLINK + CBOLD + CYELLOW + str(score) + CEND)
 if score == 100:
@@ -81,7 +81,7 @@ elif score < 80:
     print(CRED + 'Shame of you!!!' + CEND)
 
 print('')
-raw_input('Type any key to review problems and your answers ... ')
+input('Type any key to review problems and your answers ... ')
 print('')
 for r in record: 
     result =  CGREEN + 'Correct' + CEND if r[4] == 0 else CRED + 'Wrong' + CEND
