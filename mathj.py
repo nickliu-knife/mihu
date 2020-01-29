@@ -1,27 +1,43 @@
+import os
 import time
 from random import randint
 from datetime import datetime
 start = time.time()
 record = []
 
-CEND      = '\33[0m'
-CBOLD     = '\33[1m'
-CBLINK    = '\33[5m'
-CRED    = '\33[31m'
-CGREEN  = '\33[32m'
-CYELLOW = '\33[33m'
-CREDBG    = '\33[41m'
-CBLUEBG   = '\33[44m'
-CBEIGE  = '\33[36m'
-CGREY    = '\33[90m'
+is_posix = False
+if os.name == 'posix':
+    is_posix = True
+
+CEND      = '\33[0m' if is_posix else ''
+CBOLD     = '\33[1m' if is_posix else ''
+CBLINK    = '\33[5m' if is_posix else ''
+CRED    = '\33[31m' if is_posix else ''
+CGREEN  = '\33[32m' if is_posix else ''
+CYELLOW = '\33[33m' if is_posix else ''
+CREDBG    = '\33[41m' if is_posix else ''
+CBLUEBG   = '\33[44m' if is_posix else ''
+CBEIGE  = '\33[36m' if is_posix else ''
+CGREY    = '\33[90m' if is_posix else ''
 
 ops = ['+', '-']
 
 print('')
 name = input('Please input your name:')
-number = ''
-while not number.isdigit():
-    number = input('Please input the number of problems you want to play:')
+
+number = input('Please input the number of problems you want to play:')
+
+while True:
+    if number.isdigit() and int(number) != 0:
+        break
+
+    if not number.isdigit():
+        msg = 'Please input the number of problems you want to play:'
+    elif int(number) == 0:
+        msg = 'Please input a non-zero number :'
+
+    number = input(msg)
+    
 
 print('')
 for  _ in range(int(number)):
