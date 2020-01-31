@@ -40,7 +40,7 @@ while True:
     
 
 print('')
-for  _ in range(int(number)):
+for i in range(int(number)):
     op = ops[randint(0, 1)]    
     
     if op == '+':
@@ -57,10 +57,10 @@ for  _ in range(int(number)):
             
         exp = a - b
 
-    c = input('%s %s %s = ' % (a, op, b))
+    c = input('%s)   %s %s %s = ' % (i+1, a, op, b))
     while not c.isdigit():                
         print('Please input a number')
-        c = input('%s %s %s = ' % (a, op, b))
+        c = input('%s)   %s %s %s = ' % (i+1, a, op, b))
 
     if int(c) == exp:
         # print('You answer is ' +  CGREEN + 'correct' + CEND)
