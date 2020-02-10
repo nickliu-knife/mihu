@@ -24,7 +24,8 @@ CBEIGE  = '\33[36m' if is_posix else ''
 CGREY    = '\33[90m' if is_posix else ''
 
 def send_slack(timestamp, name, total, correct, wrong, score, duration):
-    webhook_url = 'https://hooks.slack.com/services/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'
+    #webhook_url = 'https://hooks.slack.com/services/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'
+    webhook_url = 'https://hooks.slack.com/services/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'
     # {\"channel\": \"#general\", \"username\": \"webhookbot\", \"text\": \"This is posted to #general and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}"
     slack_data = {
         'channel': '#exercise',
