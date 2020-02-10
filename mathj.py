@@ -59,7 +59,7 @@ def send_slack(timestamp, name, total, correct, wrong, score, duration):
         
 
 
-ops = ['+', '-']
+ops = ['+', '-', '*', '/']
 
 print('')
 name = input('Please input your name:')
@@ -80,7 +80,7 @@ while True:
 
 print('')
 for i in range(int(number)):
-    op = ops[randint(0, 1)]    
+    op = ops[randint(0, 2)]    
     
     if op == '+':
         a = randint(1, 10)
@@ -95,7 +95,12 @@ for i in range(int(number)):
             b = a
             
         exp = a - b
-
+        
+    elif op == '*':
+        a = randint(1, 10)
+        b = randint(1, 10)
+        exp = a * b;
+        
     c = input('%s)   %s %s %s = ' % (i+1, a, op, b))
     while not c.isdigit():                
         print('Please input a number')
@@ -107,7 +112,7 @@ for i in range(int(number)):
     else:
         # print('You answer is ' +  CRED + 'wrong' + CEND)
         r = 1
-    record.append((op, a, b, c, r))
+    record.append((op, a, b, c, r, i+1))
     print('')
 end = time.time()
 duration = int(end - start)
@@ -140,7 +145,7 @@ input('Type any key to review problems and your answers ... ')
 print('')
 for r in record: 
     result =  CGREEN + 'Correct' + CEND if r[4] == 0 else CRED + 'Wrong' + CEND
-    print('%s %s %s = %s (%s)' % (r[1], r[0], r[2], r[3], result))
+    print('%s)   %s %s %s = %s (%s)' % (r[5], r[1], r[0], r[2], r[3], result))
 
 print('')
 
