@@ -29,8 +29,10 @@ def send_slack(timestamp, name, total, correct, wrong, score, duration):
     #webhook_url = 'https://hooks.slack.com/services/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'
     # {\"channel\": \"#general\", \"username\": \"webhookbot\", \"text\": \"This is posted to #general and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}"
     with open("webhook.json") as webhook:
-          #webhook_url = json.load(webhook)
-        webhook_url = webhook.read()
+        webhook_data = json.load(webhook)
+        webhook_url = webhook_data.get('slack_webhook')
+
+
     slack_data = {
         'channel': '#exercise',
         'username': name,
