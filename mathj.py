@@ -1,7 +1,10 @@
 import os
+import json
 import time
 from random import randint
 from datetime import datetime
+import requests
+
 start = time.time()
 record = []
 
@@ -19,6 +22,32 @@ CREDBG    = '\33[41m' if is_posix else ''
 CBLUEBG   = '\33[44m' if is_posix else ''
 CBEIGE  = '\33[36m' if is_posix else ''
 CGREY    = '\33[90m' if is_posix else ''
+
+def send_slack(timestamp, name, total, correct, wrong, score, duration):
+    webhook_url = 'https://hooks.slack.com/services/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'
+    # {\"channel\": \"#general\", \"username\": \"webhookbot\", \"text\": \"This is posted to #general and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}"
+    slack_data = {
+        'channel': '#general',
+        'username': name,
+        'text': 
+                '\n ----------------------------------'  + '\n' +
+                '    *%s* ' % timestamp + '\n' +
+                '----------------------------------'  + '\n' +
+                ' *Name*: %s' % str(name) + '\n' +
+                ' *Score*: %s' % str(score) + '\n' +
+                ' *Problem Number*: %s' % str(total) + '\n' +
+                ' *Correct*: %s' % str(correct) + '\n' +
+                ' *Wrong*: %s' % str(wrong) + '\n' +
+                ' *Spent Time*: %s' % str(duration) + '\n \n'
+    }
+
+    response = requests.post(
+        webhook_url, data=json.dumps(slack_data),
+        headers={'Content-Type': 'application/json'}
+    )
+    if response.status_code != 200:
+        print('Not sent')
+
 
 ops = ['+', '-']
 
@@ -112,3 +141,6 @@ with open(name.lower() + '.txt', 'a') as f:
     timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     f.write('%s %s %s %s \n' % (timestamp, str(duration), str(correct), str(wrong)))
 
+
+
+send_slack(timestamp, name, len(record), correct, wrong, score, '%s:%s' %(min, sec))
