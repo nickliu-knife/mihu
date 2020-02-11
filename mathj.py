@@ -13,6 +13,8 @@ is_posix = False
 if os.name == 'posix':
     is_posix = True
 
+is_hard = True;
+
 CEND      = '\33[0m' if is_posix else ''
 CBOLD     = '\33[1m' if is_posix else ''
 CBLINK    = '\33[5m' if is_posix else ''
@@ -55,11 +57,10 @@ def send_slack(timestamp, name, total, correct, wrong, score, duration):
     if response.status_code != 200:
         print('Not sent')
         print(response.status_code)
-        print(response.content)
-        
+        print(response.content)        
+    
 
-
-ops = ['+', '-', '*', '/']
+ops = ['+', '-', '*']
 
 print('')
 name = input('Please input your name:')
@@ -77,7 +78,6 @@ while True:
 
     number = input(msg)
     
-
 print('')
 for i in range(int(number)):
     op = ops[randint(0, 2)]    
@@ -86,6 +86,16 @@ for i in range(int(number)):
         a = randint(1, 10)
         b = randint(1,10)
         exp = a + b
+
+        if is_hard == True:
+            whole = randint(1, 20)
+            part1 = randint(1, 10)
+            if whole < part1:
+                t = whole
+                whole = part1
+                part1 = whole
+            exp = whole - part1
+        
     elif op == '-':
         a = randint(1, 20)
         b = randint(1,10)
@@ -93,26 +103,39 @@ for i in range(int(number)):
             t = a
             a = b
             b = a
-            
         exp = a - b
         
     elif op == '*':
         a = randint(1, 10)
         b = randint(1, 10)
         exp = a * b;
+
+           
+    
+    
+    if op == '+' and is_hard == True:
+        c = input('%s)   (    ) %s %s = %s  ' % (i+1, op, part1, whole))
+    else:
+        c = input('%s)   %s %s %s = ' % (i+1, a, op, b))
         
-    c = input('%s)   %s %s %s = ' % (i+1, a, op, b))
     while not c.isdigit():                
         print('Please input a number')
-        c = input('%s)   %s %s %s = ' % (i+1, a, op, b))
-
+        
+        if op == '+' and is_hard == True:
+            c = input('%s)   (    ) %s %s = %s  ' % (i+1, op, part1,whole))
+        else:
+            c = input('%s)   %s %s %s = ' % (i+1, a, op, b))
+                    
     if int(c) == exp:
         # print('You answer is ' +  CGREEN + 'correct' + CEND)
         r = 0
     else:
         # print('You answer is ' +  CRED + 'wrong' + CEND)
         r = 1
-    record.append((op, a, b, c, r, i+1))
+    if op == '+' and is_hard == True:
+        record.append((op, whole, part1, c, r, i+1))
+    else:
+        record.append((op, a, b, c, r, i+1))
     print('')
 end = time.time()
 duration = int(end - start)
@@ -145,8 +168,12 @@ input('Type any key to review problems and your answers ... ')
 print('')
 for r in record: 
     result =  CGREEN + 'Correct' + CEND if r[4] == 0 else CRED + 'Wrong' + CEND
-    print('%s)   %s %s %s = %s (%s)' % (r[5], r[1], r[0], r[2], r[3], result))
-
+    if r[0] == '+' and is_hard == True:
+    #if r[0] == '+':
+        print('%s)   (%s) %s %s = %s (%s)' % (r[5], r[3], r[0], r[1], r[2], result))
+    else:
+        print('%s)   %s %s %s = %s (%s)' % (r[5], r[1], r[0], r[2], r[3], result))
+        
 print('')
 
 
