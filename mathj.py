@@ -5,6 +5,7 @@ from random import randint
 from datetime import datetime
 import requests
 import json
+import platform
 
 start = time.time()
 record = []
@@ -181,7 +182,9 @@ if not name:
     name = 'unknown'
 
 # put result files in to the folder with the local machine name
-machine_name = os.uname()[1].lower().split('.')[0].replace('-', '').replace('_', '')
+machine_name = platform.uname()[1].lower().split('.')[0].replace('-', '').replace('_', '')
+#machine_name = platform.uname()[0]
+print(machine_name)
 result_folder = './result/%s' % machine_name
 if not os.path.exists(result_folder):
     os.makedirs(result_folder, 0o755)
