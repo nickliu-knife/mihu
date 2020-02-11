@@ -60,7 +60,7 @@ def send_slack(timestamp, name, total, correct, wrong, score, duration):
         print(response.content)        
     
 
-ops = ['+', '-', '*']
+ops = ['+', '-', 'x']
 
 print('')
 name = input('Please input your name:')
@@ -105,10 +105,10 @@ for i in range(int(number)):
             b = a
         exp = a - b
         
-    elif op == '*':
+    elif op == 'x':
         a = randint(1, 10)
         b = randint(1, 10)
-        exp = a * b;
+        exp = a * b
 
            
     
@@ -179,10 +179,16 @@ print('')
 
 if not name:
     name = 'unknown'
-with open(name.lower() + '.txt', 'a') as f:
+
+# put result files in to the folder with the local machine name
+machine_name = os.uname()[1].lower().split('.')[0].replace('-', '').replace('_', '')
+result_folder = './result/%s' % machine_name
+if not os.path.exists(result_folder):
+    os.makedirs(result_folder, 0o755)
+result_file = os.path.join(result_folder, name.lower() + '.txt')
+with open(result_file, 'a') as f:
     timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     f.write('%s %s %s %s \n' % (timestamp, str(duration), str(correct), str(wrong)))
-
 
 
 send_slack(timestamp, name, len(record), correct, wrong, score, '%s:%s' %(min, sec))
