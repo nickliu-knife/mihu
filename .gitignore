@@ -1,4 +1,6 @@
 webhook.json
+*.txt
 *.html
 *.png
 *.pyc
+
