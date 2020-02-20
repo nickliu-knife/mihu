@@ -168,7 +168,21 @@ print('')
 input('Type any key to review problems and your answers ... ')
 print('')
 for r in record: 
-    result =  CGREEN + 'Correct' + CEND if r[4] == 0 else CRED + 'Wrong' + CEND
+    if r[4] == 0:
+        result =  CGREEN + 'Correct' + CEND if r[4] == 0 else CRED + 'Wrong' + CEND
+    else:
+        if r[0] == '+':
+            if is_hard:
+                answer = r[2] - r[1] if r[2] > r[1] else r[1] - r[2]
+            else: 
+                answer = r[1] + r[2]
+        elif r[0] == '-':
+            answer = r[1] - r[2]
+        elif r[0] == 'x':
+            answer = r[1] * r[2]
+        
+        result =  CRED + 'Wrong' + CEND + '  Answer: %s ' % str(answer)
+
     if r[0] == '+' and is_hard == True:
     #if r[0] == '+':
         print('%s)   (%s) %s %s = %s (%s)' % (r[5], r[3], r[0], r[1], r[2], result))
@@ -181,17 +195,20 @@ print('')
 if not name:
     name = 'unknown'
 
-# put result files in to the folder with the local machine name
-machine_name = platform.uname()[1].lower().split('.')[0].replace('-', '').replace('_', '')
-#machine_name = platform.uname()[0]
-print(machine_name)
-result_folder = './result/%s' % machine_name
-if not os.path.exists(result_folder):
-    os.makedirs(result_folder, 0o755)
-result_file = os.path.join(result_folder, name.lower() + '.txt')
-with open(result_file, 'a') as f:
-    timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-    f.write('%s %s %s %s \n' % (timestamp, str(duration), str(correct), str(wrong)))
+import db
+timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+db.add_new_record(name, timestamp, duration, correct, wrong)
+# # put result files in to the folder with the local machine name
+# machine_name = platform.uname()[1].lower().split('.')[0].replace('-', '').replace('_', '')
+# #machine_name = platform.uname()[0]
+# print(machine_name)
+# result_folder = './result/%s' % machine_name
+# if not os.path.exists(result_folder):
+#     os.makedirs(result_folder, 0o755)
+# result_file = os.path.join(result_folder, name.lower() + '.txt')
+# with open(result_file, 'a') as f:
+#     timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+#     f.write('%s %s %s %s \n' % (timestamp, str(duration), str(correct), str(wrong)))
 
 
 send_slack(timestamp, name, len(record), correct, wrong, score, '%s:%s' %(min, sec))
